@@ -23,32 +23,55 @@ The system follows a 10-stage pipeline as shown in the architecture diagram:
 
 - **Framework**: Python 3.9+
 - **RAG Orchestration**: LlamaIndex + LangChain
-- **Vector Database**: FAISS (local) or Pinecone (cloud)
+- **Vector Database**: FAISS (local, CPU-based)
 - **Embeddings**: HuggingFace models (sentence-transformers)
-- **Graph Database**: NetworkX (lightweight) or Neo4j (production)
-- **LLM**: OpenAI GPT-4 / GPT-3.5-turbo or HuggingFace models
+- **Graph Database**: NetworkX (lightweight, in-memory)
+- **LLM**: Open-source models via HuggingFace (Llama 2, Mistral, or Zephyr)
 - **Web Framework**: Streamlit
-- **Deployment**: AWS EC2/Lambda or Azure App Service
-- **Storage**: Local file system / S3 / Azure Blob Storage
+- **Deployment**: Local development environment
+- **Storage**: Local file system
+
+> [!NOTE]
+> **100% Free & Open-Source Stack**: All selected technologies are completely free with no subscription costs. FAISS is CPU-based (no GPU required for indexing), NetworkX runs in-memory, and HuggingFace models can be run locally. For optimal performance with larger models, a GPU is recommended but not required.
 
 ---
 
-## User Review Required
+## Technology Choices Confirmed ✅
+
+> [!NOTE]
+> **Open-Source LLM**: Using HuggingFace models (Mistral-7B-Instruct or Zephyr-7B-beta) for local inference. These models can run on CPU (slower) or GPU (faster). No API costs.
+
+> [!NOTE]
+> **FAISS Vector Database**: CPU-based vector similarity search. Completely free, no subscription required. Handles 10K-1M documents efficiently on standard hardware.
+
+> [!NOTE]
+> **Local Deployment**: Application runs on your local machine. No cloud infrastructure costs. Can be containerized with Docker for portability.
+
+> [!NOTE]
+> **NetworkX Graph Database**: Lightweight, in-memory graph operations. Perfect for knowledge graph construction with thousands of entities. No external database required.
 
 > [!IMPORTANT]
-> **LLM Provider Selection**: The implementation assumes OpenAI API access. If you prefer open-source models (e.g., Llama 2, Mistral) via HuggingFace, this will require additional GPU infrastructure and model hosting setup. Please confirm your preference.
+> **Data Privacy & Security**: All data processing happens locally on your machine. No data is sent to external APIs (except if you choose to use external LLM APIs later). Suitable for sensitive enterprise data with proper access controls.
 
-> [!IMPORTANT]
-> **Vector Database Choice**: FAISS is recommended for local development and smaller datasets. For production with large-scale data, Pinecone offers managed hosting but requires a subscription. Please confirm which you'd like to start with.
+### Cost Verification
 
-> [!WARNING]
-> **Cloud Deployment Platform**: The plan assumes AWS deployment. If you prefer Azure, configuration files and deployment scripts will need adjustments. Please specify your target platform.
+| Component | Cost | License | Notes |
+|-----------|------|---------|-------|
+| Python 3.9+ | **Free** | PSF License | Open-source |
+| LlamaIndex | **Free** | MIT License | Open-source |
+| LangChain | **Free** | MIT License | Open-source |
+| FAISS | **Free** | MIT License | Meta/Facebook AI |
+| HuggingFace Transformers | **Free** | Apache 2.0 | Open-source |
+| Sentence-Transformers | **Free** | Apache 2.0 | Open-source |
+| NetworkX | **Free** | BSD License | Open-source |
+| Streamlit | **Free** | Apache 2.0 | Open-source (Community Edition) |
+| Mistral/Zephyr/Llama 2 | **Free** | Apache 2.0/MIT | Open-source models |
+| PyPDF | **Free** | BSD License | Open-source |
+| BeautifulSoup4 | **Free** | MIT License | Open-source |
+| Pandas | **Free** | BSD License | Open-source |
+| spaCy | **Free** | MIT License | Open-source |
 
-> [!IMPORTANT]
-> **Graph Database Scope**: The plan uses NetworkX for a lightweight graph implementation. For production-scale entity relationship management, Neo4j is recommended but adds infrastructure complexity. Please confirm your preference.
-
-> [!CAUTION]
-> **Data Privacy & Security**: If handling sensitive enterprise data, ensure compliance with data protection regulations (GDPR, HIPAA, etc.). The implementation will include basic security measures, but production deployment may require additional hardening, encryption, and access controls.
+**Total Cost: $0** - All components are free and open-source!
 
 ---
 
@@ -59,31 +82,51 @@ The system follows a 10-stage pipeline as shown in the architecture diagram:
 #### [NEW] [requirements.txt](file:///c:/coding%20stuffs/rag/Advanced-enterprise-rag/requirements.txt)
 
 Python dependencies including:
-- `llama-index>=0.9.0` - Core RAG orchestration
-- `langchain>=0.1.0` - Additional LLM utilities
-- `faiss-cpu>=1.7.4` - Vector similarity search
-- `sentence-transformers>=2.2.0` - Embeddings generation
-- `openai>=1.0.0` - LLM API integration
-- `streamlit>=1.28.0` - Web interface
-- `beautifulsoup4>=4.12.0` - Web scraping
-- `pypdf>=3.17.0` - PDF parsing
-- `pandas>=2.0.0` - CSV/data handling
-- `networkx>=3.1` - Graph operations
-- `chromadb>=0.4.0` - Alternative vector store
-- `python-dotenv>=1.0.0` - Environment management
+- `llama-index>=0.9.0` - Core RAG orchestration (Free, MIT)
+- `langchain>=0.1.0` - Additional LLM utilities (Free, MIT)
+- `faiss-cpu>=1.7.4` - Vector similarity search (Free, MIT)
+- `sentence-transformers>=2.2.0` - Embeddings generation (Free, Apache 2.0)
+- `transformers>=4.35.0` - HuggingFace model loading (Free, Apache 2.0)
+- `torch>=2.0.0` - PyTorch for model inference (Free, BSD)
+- `accelerate>=0.24.0` - Optimized model loading (Free, Apache 2.0)
+- `streamlit>=1.28.0` - Web interface (Free, Apache 2.0)
+- `beautifulsoup4>=4.12.0` - Web scraping (Free, MIT)
+- `pypdf>=3.17.0` - PDF parsing (Free, BSD)
+- `pandas>=2.0.0` - CSV/data handling (Free, BSD)
+- `networkx>=3.1` - Graph operations (Free, BSD)
+- `spacy>=3.7.0` - NER for entity extraction (Free, MIT)
+- `python-dotenv>=1.0.0` - Environment management (Free, BSD)
 
 #### [NEW] [.env.example](file:///c:/coding%20stuffs/rag/Advanced-enterprise-rag/.env.example)
 
 Environment configuration template:
 ```env
-OPENAI_API_KEY=your_openai_key_here
-PINECONE_API_KEY=your_pinecone_key_here
-PINECONE_ENVIRONMENT=your_environment
-VECTOR_STORE=faiss  # or pinecone
+# Vector Database Configuration
+VECTOR_STORE=faiss
 EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
-LLM_MODEL=gpt-3.5-turbo
+FAISS_INDEX_PATH=./data/faiss_index
+
+# LLM Configuration (Open-Source Models)
+LLM_MODEL=mistralai/Mistral-7B-Instruct-v0.2
+# Alternative options:
+# LLM_MODEL=HuggingFaceH4/zephyr-7b-beta
+# LLM_MODEL=meta-llama/Llama-2-7b-chat-hf
+
+LLM_DEVICE=cpu  # or 'cuda' if GPU available
+LLM_MAX_LENGTH=2048
+LLM_TEMPERATURE=0.7
+
+# Document Processing
 CHUNK_SIZE=512
 CHUNK_OVERLAP=50
+
+# Retrieval Configuration
+TOP_K_RETRIEVERS=5
+RERANK_TOP_K=3
+
+# Graph Database
+GRAPH_ENABLE=True
+NER_MODEL=en_core_web_sm  # spaCy model
 ```
 
 #### [NEW] [config.py](file:///c:/coding%20stuffs/rag/Advanced-enterprise-rag/src/config.py)
@@ -167,11 +210,12 @@ Metadata extraction and enrichment:
 #### [NEW] [src/indexing/vector_index.py](file:///c:/coding%20stuffs/rag/Advanced-enterprise-rag/src/indexing/vector_index.py)
 
 Vector database implementation:
-- Initialize FAISS index (or Pinecone client)
+- Initialize FAISS index (CPU-based, no GPU required)
 - Generate embeddings using HuggingFace sentence-transformers
 - Build dense vector index for semantic search
-- Support incremental indexing
+- Support incremental indexing and persistence to disk
 - Implement similarity search with configurable top-k
+- Use IndexFlatL2 for exact search or IndexIVFFlat for faster approximate search
 
 #### [NEW] [src/indexing/sentence_window_index.py](file:///c:/coding%20stuffs/rag/Advanced-enterprise-rag/src/indexing/sentence_window_index.py)
 
@@ -249,10 +293,13 @@ Semantic re-ranking:
 #### [NEW] [src/llm/llm_client.py](file:///c:/coding%20stuffs/rag/Advanced-enterprise-rag/src/llm/llm_client.py)
 
 LLM integration:
-- Initialize OpenAI client (or HuggingFace)
+- Initialize HuggingFace pipeline for text generation
+- Load open-source models (Mistral, Zephyr, or Llama 2)
+- Implement text generation with temperature control
+- Support CPU and GPU inference
+- Optimize model loading with 4-bit quantization (optional)
 - Implement retry logic and error handling
-- Support streaming responses
-- Track token usage and costs
+- No API costs - fully local inference
 
 #### [NEW] [src/llm/prompt_templates.py](file:///c:/coding%20stuffs/rag/Advanced-enterprise-rag/src/llm/prompt_templates.py)
 
@@ -362,41 +409,48 @@ Test data directory:
 
 ---
 
-### Deployment Configuration
+### Local Deployment Configuration
 
 #### [NEW] [Dockerfile](file:///c:/coding%20stuffs/rag/Advanced-enterprise-rag/Dockerfile)
 
-Container configuration:
+Container configuration for local deployment:
 - Base image: `python:3.9-slim`
-- Install system dependencies
+- Install system dependencies (build-essential for FAISS)
 - Copy application code
-- Install Python packages
+- Install Python packages from requirements.txt
 - Expose Streamlit port (8501)
-- Define entrypoint
+- Define entrypoint for Streamlit app
+- Volume mounts for data, models, and FAISS index
 
 #### [NEW] [docker-compose.yml](file:///c:/coding%20stuffs/rag/Advanced-enterprise-rag/docker-compose.yml)
 
-Multi-container orchestration:
-- Streamlit app service
-- Vector database service (if using Pinecone: external)
-- Optional: Neo4j service for graph database
-- Volume mounts for data persistence
+Local container orchestration:
+- Single Streamlit app service
+- Volume mounts for:
+  - `./data` - Document storage and FAISS index
+  - `./models` - Cached HuggingFace models
+  - `./src` - Application source code
+- Port mapping: 8501:8501 for web interface
+- Environment variable configuration
+- Optional GPU support with nvidia-docker (if available)
 
-#### [NEW] [deploy/aws/](file:///c:/coding%20stuffs/rag/Advanced-enterprise-rag/deploy/aws/)
+#### [NEW] [scripts/setup.sh](file:///c:/coding%20stuffs/rag/Advanced-enterprise-rag/scripts/setup.sh)
 
-AWS deployment scripts:
-- EC2 instance configuration
-- Lambda function setup (for serverless components)
-- S3 bucket creation for document storage
-- IAM roles and policies
+Local setup script:
+- Create virtual environment
+- Install Python dependencies
+- Download spaCy NER model
+- Create necessary directories (data, models, logs)
+- Initialize FAISS index
+- Download and cache default HuggingFace model
 
-#### [NEW] [deploy/azure/](file:///c:/coding%20stuffs/rag/Advanced-enterprise-rag/deploy/azure/)
+#### [NEW] [scripts/run_local.sh](file:///c:/coding%20stuffs/rag/Advanced-enterprise-rag/scripts/run_local.sh)
 
-Azure deployment scripts:
-- App Service configuration
-- Azure Blob Storage setup
-- Azure Functions (optional)
-- Resource group templates
+Local execution script:
+- Activate virtual environment
+- Set environment variables from .env
+- Start Streamlit app on localhost:8501
+- Display access URL
 
 ---
 
@@ -510,13 +564,13 @@ python -c "from src.indexing.graph_index import GraphIndex; graph = GraphIndex()
    - System handles 10+ concurrent users without degradation
    - Re-ranking improves answer relevance (compare with/without re-ranking)
 
-**Production Deployment Testing** (requires user action):
-1. Deploy to AWS/Azure using provided scripts
-2. Access deployed Streamlit app via public URL
+**Local Deployment Testing**:
+1. Run Docker container or local Python environment
+2. Access Streamlit app at `http://localhost:8501`
 3. Upload production-scale data (100+ documents)
-4. Test multiple concurrent users
-5. Monitor system logs and metrics
-6. **Expected**: Stable operation, response times < 15 seconds, accurate citations
+4. Test query performance with local LLM
+5. Monitor system logs and resource usage (CPU/RAM)
+6. **Expected**: Stable operation, response times < 20 seconds on CPU (< 10s with GPU), accurate citations
 
 ### Browser-Based UI Testing
 
@@ -558,7 +612,8 @@ python tests/benchmark_latency.py
 - [ ] Latency metrics are displayed for transparency
 - [ ] System handles edge cases (empty queries, large files, network errors)
 - [ ] Documentation is clear and comprehensive
-- [ ] Deployment scripts work on target platform (AWS/Azure)
+- [ ] Local deployment works via Docker or virtual environment
+- [ ] Application runs on localhost without external dependencies
 
 ---
 

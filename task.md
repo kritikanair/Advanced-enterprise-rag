@@ -1,5 +1,12 @@
 # Advanced Multi-Source RAG for Enterprise Knowledge Base
 
+**Technology Stack**: 100% Free & Open-Source ✅
+- **LLM**: HuggingFace (Mistral/Zephyr) - Local inference
+- **Vector DB**: FAISS (CPU-based)
+- **Graph DB**: NetworkX (in-memory)
+- **Deployment**: Local environment
+- **Total Cost**: $0
+
 ## Phase 1: Project Setup & Infrastructure
 - [ ] Set up Python virtual environment
 - [ ] Install core dependencies (LlamaIndex, LangChain, FAISS, etc.)
