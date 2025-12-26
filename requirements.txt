@@ -1,0 +1,53 @@
+# Advanced Multi-Source RAG System - Dependencies
+# 100% Free & Open-Source Stack
+
+# ===== RAG Framework =====
+llama-index>=0.9.0
+langchain>=0.1.0
+llama-index-embeddings-huggingface>=0.1.0
+llama-index-llms-huggingface>=0.1.0
+
+# ===== Vector Database =====
+faiss-cpu>=1.7.4  # CPU-based vector similarity search
+
+# ===== Embeddings & LLM =====
+sentence-transformers>=2.2.0  # For embeddings generation
+transformers>=4.35.0  # HuggingFace model loading
+torch>=2.0.0  # PyTorch for model inference
+accelerate>=0.24.0  # Optimized model loading
+bitsandbytes>=0.41.0  # For 4-bit quantization (optional)
+
+# ===== Web Framework =====
+streamlit>=1.28.0  # Web UI
+
+# ===== Data Ingestion =====
+beautifulsoup4>=4.12.0  # Web scraping
+lxml>=4.9.0  # HTML parsing
+requests>=2.31.0  # HTTP requests
+pypdf>=3.17.0  # PDF parsing
+PyPDF2>=3.0.0  # Additional PDF support
+pandas>=2.0.0  # CSV/data handling
+openpyxl>=3.1.0  # Excel support
+
+# ===== Graph Database & NLP =====
+networkx>=3.1  # Graph operations
+spacy>=3.7.0  # NER for entity extraction
+nltk>=3.8.0  # Natural language processing
+
+# ===== Re-ranking =====
+rank-bm25>=0.2.2  # BM25 re-ranking
+
+# ===== Utilities =====
+python-dotenv>=1.0.0  # Environment management
+pydantic>=2.0.0  # Data validation
+tqdm>=4.66.0  # Progress bars
+tenacity>=8.2.0  # Retry logic
+
+# ===== Testing & Quality =====
+pytest>=7.4.0
+pytest-cov>=4.1.0
+black>=23.0.0  # Code formatting
+flake8>=6.1.0  # Linting
+
+# ===== Logging & Monitoring =====
+loguru>=0.7.0  # Better logging
